@@ -1,9 +1,6 @@
-import random
-import strformat
-import unicode
-import times
+import
+  random, strformat, unicode, parsecfg, strutils, times, json
 import asynchttpserver, asyncdispatch
-import json
 
 randomize()
 
@@ -35,5 +32,7 @@ proc cb(req: Request) {.async.} =
     """
     await req.respond(Http200, html)
 
+let cfg = loadConfig("server.ini")
+let port = Port(cfg.getSectionValue("", "port").parseUInt)
 let server = newAsyncHttpServer()
-waitFor server.serve(Port(8000), cb)
+waitFor server.serve(port, cb)
