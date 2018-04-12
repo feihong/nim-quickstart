@@ -8,8 +8,8 @@ Source: https://nim-lang.org/install_unix.html
 
 ## Run
 
-    nim c -r hello.nim
+    nim c -r -o:bin/hello hello.nim
 
 ## Build
 
-    nim c -d:release hello.nim
+    nim c -d:release -o:bin/hello hello.nim
