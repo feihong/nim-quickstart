@@ -1,3 +1,4 @@
+import future
 import
   random, strformat, unicode, parsecfg, strutils, sequtils, times, json, tables
 import asynchttpserver, asyncdispatch, cgi
@@ -15,12 +16,11 @@ proc randomHanzi() : string =
   let num = rand 0x4e00..0x9fff
   toUTF8(Rune(num))
 
-proc hanziString(count : int) : string =
+proc hanziString(count: int) : string =
   let posCount = if count < 1: 1
                  else: count
-  var hanziSeq = newSeq[string](posCount)
-  for i in 0..<posCount:
-    hanziSeq[i] = randomHanzi()
+  # let hanziSeq = map(toSeq(1..posCount), proc (x: int): string = randomHanzi())
+  let hanziSeq = lc[randomHanzi() | (x <- 1..posCount), string]
   join(hanziSeq, ", ")
 
 proc cb(req: Request) {.async.} =
