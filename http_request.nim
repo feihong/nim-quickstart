@@ -24,11 +24,10 @@ let params = {
 
 proc getQueryString(params: openarray[(string, string)]): string =
   result = ""
-  for i, pair in params:
+  for pair in params:
     let (k, v) = pair
     result.add(k & "=" & uri.encodeUrl(v) & "&")
 
-# echo getQueryString(params)
 let url = baseUrl & getQueryString(params)
 
 let client = newHttpClient()
