@@ -2,16 +2,17 @@
 nim c -r -o:webapp app.nim
 ]#
 
-import strutils, strformat
+import strutils, strformat, sequtils, parsecfg
 import asyncdispatch, asyncfile
 import jester
 import hanzi, licenses
 
-
 include "page.tmpl"
 
+let cfg = loadConfig("config.ini")
+
 settings:
-  port = Port(8000)
+  port = cfg.getSectionValue("server", "port").parseInt.Port
 
 routes:
   get "/":
@@ -29,15 +30,15 @@ routes:
     """)
 
   get "/hanzi/@count?":
-    let count = if @"count" == "":
-                  5
-                else:
-                  parseInt(@"count")
+    let count = if @"count" == "": 5
+                else: parseInt(@"count")
     resp html_page("Random Hanzi", &"<p style='font-size: 4rem'>{hanziString(count)}</h1>")
 
   get "/licenses/":
-    # let licenses = await getLicenses()
-    resp "what"
+    let licenses = await getLicenses()
+    let names = map(licenses, proc (x: BusinessLicense): string = x.doing_business_as_name)
+    let payload = join(names, ", ")
+    resp payload
 
   get "/licenses.json":
     let file = openAsync("licenses.json", fmRead)
