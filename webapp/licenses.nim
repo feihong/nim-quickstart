@@ -12,12 +12,12 @@ let radius = cfg.getSectionValue("licenses", "radius")
 type
   BusinessLicense* = object
     doing_business_as_name*: string
-    legal_name: string
-    address: string
+    legal_name*: string
+    address*: string
+    business_activity*: string
+    date_issued*: string
     longitude: string
     latitude: string
-    business_activity: string
-    date_issued: string
 
 proc getQueryString(params: openarray[(string, string)]): string =
   result = ""

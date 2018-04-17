@@ -1,0 +1,29 @@
+#? stdtmpl | standard
+#proc license_page(licenses: seq[BusinessLicense]): string =
+#  result = ""
+<h1 class="title">Recent Business Licenses</h1>
+
+<table class="table is-bordered is-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Activity</th>
+      <th>Address</th>
+      <th>Date issued</th>
+    </tr>
+  </thead>
+  <tbody>
+    # for lic in licenses:
+    <tr>
+      <td>
+        ${lic.doing_business_as_name}
+        <br>
+        Legal name: ${lic.legal_name}
+      </td>
+      <td>${lic.business_activity}</td>
+      <td>${lic.address}</td>
+      <td>${lic.date_issued.substr()}</td>
+    </tr>
+    # end for
+  </tbody>
+</table>
