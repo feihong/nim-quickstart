@@ -3,7 +3,7 @@ nim c -r -o:webapp app.nim
 ]#
 
 import random, unicode, future, strutils, strformat
-import asyncdispatch
+import asyncdispatch, asyncfile
 import jester
 
 proc randomHanzi(): string =
@@ -24,7 +24,16 @@ settings:
 routes:
   get "/":
     resp html_page("Home", """
-      <a href="hanzi/">Random Hanzi</a>
+      <h1>Home</h1>
+
+      <ul>
+        <li>
+          <a href="hanzi/">Random Hanzi</a>
+        </li>
+        <li>
+          <a href="licenses/">Business Licenses</a>
+        </li>
+      </ul>
     """)
 
   get "/hanzi/@count?":
@@ -33,5 +42,10 @@ routes:
                 else:
                   parseInt(@"count")
     resp html_page("Random Hanzi", fmt"<p style='font-size: 4rem'>{hanziString(count)}</h1>")
+
+  get "/licenses.json":
+    let file = openAsync("licenses.json", fmRead)
+    let payload = await file.readAll()
+    resp payload, "application/json"
 
 runForever()
