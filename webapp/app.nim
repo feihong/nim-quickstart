@@ -2,19 +2,11 @@
 nim c -r -o:webapp app.nim
 ]#
 
-import random, unicode, future, strutils, strformat
+import strutils, strformat
 import asyncdispatch, asyncfile
 import jester
+import hanzi, licenses
 
-proc randomHanzi(): string =
-  let num = rand 0x4e00..0x9fff
-  toUTF8(Rune(num))
-
-proc hanziString(count: int): string =
-  let posCount = if count < 1: 1
-                 else: count
-  let hanziSeq = lc[randomHanzi() | (x <- 1..posCount), string]
-  join(hanziSeq, ", ")
 
 include "page.tmpl"
 
@@ -41,7 +33,11 @@ routes:
                   5
                 else:
                   parseInt(@"count")
-    resp html_page("Random Hanzi", fmt"<p style='font-size: 4rem'>{hanziString(count)}</h1>")
+    resp html_page("Random Hanzi", &"<p style='font-size: 4rem'>{hanziString(count)}</h1>")
+
+  get "/licenses/":
+    # let licenses = await getLicenses()
+    resp "what"
 
   get "/licenses.json":
     let file = openAsync("licenses.json", fmRead)
