@@ -1,3 +1,7 @@
+#[
+nim c -r -o:webapp app.nim
+]#
+
 import random, unicode, future, strutils, strformat
 import asyncdispatch
 import jester
@@ -12,17 +16,22 @@ proc hanziString(count: int): string =
   let hanziSeq = lc[randomHanzi() | (x <- 1..posCount), string]
   join(hanziSeq, ", ")
 
+include "page.tmpl"
+
 settings:
   port = Port(8000)
 
 routes:
-  get "/@count?":
+  get "/":
+    resp html_page("Home", """
+      <a href="hanzi/">Random Hanzi</a>
+    """)
+
+  get "/hanzi/@count?":
     let count = if @"count" == "":
                   5
                 else:
                   parseInt(@"count")
-    resp fmt"""
-      <meta charset="utf-8"><h1>{hanziString(count)}</h1>
-    """
+    resp html_page("Random Hanzi", fmt"<p style='font-size: 4rem'>{hanziString(count)}</h1>")
 
 runForever()

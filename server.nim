@@ -12,11 +12,11 @@ proc getParams(query: string) : Table[string, string] =
   for k, v in cgi.decodeData(query):
     result[k] = v
 
-proc randomHanzi() : string =
+proc randomHanzi(): string =
   let num = rand 0x4e00..0x9fff
   toUTF8(Rune(num))
 
-proc hanziString(count: int) : string =
+proc hanziString(count: int): string =
   let posCount = if count < 1: 1
                  else: count
   # let hanziSeq = map(toSeq(1..posCount), proc (x: int): string = randomHanzi())
