@@ -1,5 +1,5 @@
 import
-  httpclient, times, uri, strformat, strutils, parsecfg, json
+  httpclient, times, uri, strformat, strutils, parsecfg, json, algorithm
 import asyncdispatch, asyncfile
 
 const baseUrl = "https://data.cityofchicago.org/resource/xqx5-8hwx.json?"
@@ -54,4 +54,15 @@ proc decodeLicenses(jsonStr: string): seq[BusinessLicense] =
 
 proc getLicenses*(): Future[seq[BusinessLicense]] {.async.} =
   let file = openAsync("licenses.json", fmRead)
-  return decodeLicenses(await file.readAll())
+  var licenses = decodeLicenses(await file.readAll())
+  file.close()
+
+  # Sort by most recent first
+  licenses.sort do (x, y: BusinessLicense) -> int:
+    result = -cmp(x.date_issued, y.date_issued)
+
+  for lic in licenses:
+    # lic.date_issued = lic.date_issued.substr(10)
+    echo lic.date_issued
+
+  return licenses
