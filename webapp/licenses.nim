@@ -61,8 +61,8 @@ proc getLicenses*(): Future[seq[BusinessLicense]] {.async.} =
   licenses.sort do (x, y: BusinessLicense) -> int:
     result = -cmp(x.date_issued, y.date_issued)
 
-  for lic in licenses:
-    # lic.date_issued = lic.date_issued.substr(10)
-    echo lic.date_issued
+  for lic in licenses.mitems:
+    # Chop off the time portion of the string
+    lic.date_issued = lic.date_issued.substr(0, 9)
 
   return licenses
