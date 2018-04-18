@@ -1,3 +1,11 @@
+#[
+Browse data:
+https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr/data
+
+API docs:
+https://dev.socrata.com/foundry/data.cityofchicago.org/xqx5-8hwx
+
+]#
 import
   os, httpclient, times, uri, strformat, strutils, parsecfg, json, algorithm
 import asyncdispatch, asyncfile
