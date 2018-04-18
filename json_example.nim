@@ -58,7 +58,8 @@ type
 
 
 let jsonNode = parseJson(data)
-let lic = jsonNode.to(BusinessLicense)
+var lic = jsonNode.to(BusinessLicense)
+lic.date_issued = lic.date_issued.substr(0, 9)
 assert lic.type is BusinessLicense
 assert lic.type.name == "BusinessLicense"
 echo lic.repr
