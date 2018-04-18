@@ -25,8 +25,9 @@ type
     doing_business_as_name*: string
     legal_name*: string
     address*: string
+    license_description*: string
     business_activity*: string
-    date_issued*: string
+    license_start_date*: string
     longitude: string
     latitude: string
 
@@ -82,8 +83,8 @@ proc getLicenses*(): Future[seq[BusinessLicense]] {.async.} =
 
   for lic in result.mitems:
     # Chop off the time portion of the string
-    lic.date_issued = lic.date_issued.substr(0, 9)
+    lic.license_start_date = lic.license_start_date.substr(0, 9)
 
   # Sort by most recent first
   result.sort do (x, y: BusinessLicense) -> int:
-    -cmp(x.date_issued, y.date_issued)
+    -cmp(x.license_start_date, y.license_start_date)

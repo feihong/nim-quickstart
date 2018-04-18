@@ -7,9 +7,9 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Activity</th>
+      <th>Description</th>
       <th>Address</th>
-      <th>Date issued</th>
+      <th>Start date</th>
     </tr>
   </thead>
   <tbody>
@@ -20,9 +20,13 @@
         <br>
         Legal name: ${lic.legal_name}
       </td>
-      <td>${lic.business_activity}</td>
+      <td>
+        ${lic.license_description}
+        <br>
+        Activity: ${lic.business_activity}
+      </td>
       <td>${lic.address}</td>
-      <td>${lic.date_issued.substr()}</td>
+      <td>${lic.license_start_date}</td>
     </tr>
     # end for
   </tbody>
