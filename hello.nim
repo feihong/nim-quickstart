@@ -1,6 +1,6 @@
 import random
-import unicode
 import strformat
+from unicode import toUTF8, Rune
 
 # This is a comment
 echo "你好世界！"

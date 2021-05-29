@@ -3,13 +3,18 @@
 ## Installation
 
     curl https://nim-lang.org/choosenim/init.sh -sSf | sh
+    choosenim stable
+
+Then add `export PATH=~/.nimble/bin:$PATH` to `~/.bash_profile`.
 
 Source: https://nim-lang.org/install_unix.html
 
-## Run
+## Commands
 
-    nim c -r -o:bin/hello hello.nim
+Build a program
 
-## Build
+    nim c hello.nim
 
-    nim c -d:release -o:bin/hello hello.nim
+Build and run a program
+
+    nim c -r hello.nim
